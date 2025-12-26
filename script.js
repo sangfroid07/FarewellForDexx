@@ -1,71 +1,104 @@
-const form = document.getElementById("postForm");
-const postsContainer = document.getElementById("posts");
+// 🔥 FIREBASE CONFIG
+const firebaseConfig = {
+    apiKey: "AIzaSyBbVHB-sjFqGDvpYiRTof8zdqF6oVEfYxo",
+    authDomain: "dexxer-43e55.firebaseapp.com",
+    projectId: "dexxer-43e55",
+    storageBucket: "dexxer-43e55.appspot.com",
+    messagingSenderId: "80900359866",
+    appId: "1:80900359866:web:818425eff775c7f55fe483"
+};
 
+// INIT FIREBASE
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// ELEMENTS
+const form = document.getElementById("messageForm");
+const wall = document.getElementById("wall");
+const anonCheckbox = document.getElementById("anonymous");
+const nameField = document.getElementById("name");
+const messageField = document.getElementById("message");
+
+// 🎨 PASTEL GRADIENTS
 const gradients = [
-    "linear-gradient(135deg, #f6d365, #fda085)", // peach
-    "linear-gradient(135deg, #fbc2eb, #a6c1ee)", // pink-blue
-    "linear-gradient(135deg, #cfd9df, #e2ebf0)", // grey
-    "linear-gradient(135deg, #d4fc79, #96e6a1)", // green
-    "linear-gradient(135deg, #fddb92, #d1fdff)"  // beige
+    'linear-gradient(135deg, #f4b1b1, #b8c6ff)', // crimson/blue
+    'linear-gradient(135deg, #ffd6c9, #ff9aa2)', // peach/red
+    'linear-gradient(135deg, #c7e9d8, #b5d8ff)', // green/blue
+    'linear-gradient(135deg, #f2f2f2, #cfcfcf)', // gray
+    'linear-gradient(135deg, #f3e6d3, #e6d5b8)'  // beige
 ];
 
-const goofyImages = ['Ig1.jpg','Ig2.jpg','Ig3.jpg','Ig4.jpg','Ig5.jpg','Ig6.jpg','Ig7.jpg','Ig8.jpg','Ig9.jpg','Ig10.jpg']; // put in repo root
+// 🖼️ GOOBY IMAGES (MUST EXIST IN ROOT OR /img/)
+const goofyImages = [
+    'Ig1.jpg','Ig2.jpg','Ig3.jpg','Ig4.jpg','Ig5.jpg',
+    'Ig6.jpg','Ig7.jpg','Ig8.jpg','Ig9.jpg','Ig10.jpg'
+];
 
-// Load saved posts
-let posts = JSON.parse(localStorage.getItem("posts")) || [];
-renderPosts();
-
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const nameInput = document.getElementById("nameInput");
-    const anonCheck = document.getElementById("anonCheck");
-    const messageInput = document.getElementById("messageInput");
-
-    let name = anonCheck.checked || nameInput.value.trim() === ""
-        ? "Anonymous <3"
-        : nameInput.value.trim();
-
-    const post = {
-        name,
-        text: messageInput.value.trim(),
-        time: new Date().toLocaleString(),
-        gradient: gradients[Math.floor(Math.random() * gradients.length)],
-        image: goofyImages[Math.floor(Math.random() * goofyImages.length)]
-    };
-
-    posts.unshift(post);
-    localStorage.setItem("posts", JSON.stringify(posts));
-
-    messageInput.value = "";
-    renderPosts();
+// ANON TOGGLE
+anonCheckbox.addEventListener("change", () => {
+    nameField.disabled = anonCheckbox.checked;
+    if (anonCheckbox.checked) nameField.value = "";
 });
 
-function renderPosts() {
-    postsContainer.innerHTML = "";
+// 🔁 REALTIME WALL
+db.collection("posts")
+  .orderBy("timestamp", "desc")
+  .onSnapshot(snapshot => {
+      wall.innerHTML = "";
+      snapshot.forEach(doc => renderPost(doc.data()));
+  });
 
-    posts.forEach((post) => {
-        const div = document.createElement("div");
-        div.className = "post";
-        div.style.background = post.gradient;
+// 🧱 RENDER POST
+function renderPost(data) {
+    const post = document.createElement("div");
+    post.className = "post";
 
-        div.innerHTML = `
-            <div class="post-content">
-                <div class="name">${post.name}</div>
-                <div class="time">${post.time}</div>
-                <p>${post.text}</p>
-            </div>
-            <div class="post-image"></div>
-        `;
+    // RANDOM GRADIENT
+    post.style.background =
+        gradients[Math.floor(Math.random() * gradients.length)];
 
-        const img = div.querySelector(".post-image");
-        img.style.backgroundImage = `url(${post.image})`;
+    // RANDOM IMAGE
+    const img =
+        goofyImages[Math.floor(Math.random() * goofyImages.length)];
 
-        postsContainer.appendChild(div);
+    post.innerHTML = `
+        <div class="name">${escapeHTML(data.name)}</div>
+        <div class="time">${new Date(data.timestamp).toLocaleString()}</div>
+        <p>${escapeHTML(data.message)}</p>
+        <div class="post-image"></div>
+    `;
+
+    const imageDiv = post.querySelector(".post-image");
+    imageDiv.style.backgroundImage = `url("${img}")`;
+
+    wall.appendChild(post);
+}
+
+// ✉️ SUBMIT POST
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const message = messageField.value.trim();
+    if (!message) return;
+
+    const name =
+        (!anonCheckbox.checked && nameField.value.trim() !== "")
+            ? nameField.value.trim()
+            : "~Anonymous<3";
+
+await db.collection("posts").add({
+        name,
+        message,
+        timestamp: Date.now()
     });
-}});
 
-function escapeHTML(str) {
+    form.reset();
+    anonCheckbox.checked = true;
+    nameField.disabled = true;
+});
+
+// 🔐 ESCAPE HTML
+function escapeHTML(str) 
     return str.replace(/[&<>"']/g, m => ({
         '&':'&amp;',
         '<':'&lt;',
@@ -73,4 +106,5 @@ function escapeHTML(str) {
         '"':'&quot;',
         "'":'&#39;'
     })[m]);
-        }
+
+
