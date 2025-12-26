@@ -3,110 +3,172 @@
     font-family: 'Segoe UI', sans-serif;
 }
 
-/* ===== PAGE BACKGROUND ===== */
+/* 🌌 MAIN BACKGROUND */
 body {
-    background: linear-gradient(
-        160deg,
-        #1f2f36,
-        #243b42,
-        #1b2a30
-    );
-    color: white;
     margin: 0;
     padding: 40px;
-    min-height: 100vh;
+
+    /* 🔁 CHANGE ONLY THIS IMAGE */
+    background:
+        linear-gradient(
+            rgba(10, 20, 25, 0.75),
+            rgba(10, 20, 25, 0.75)
+        ),
+        url("Bg.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+    color: #f2f2f2;
 }
 
-/* subtle texture */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(255,255,255,0.02);
-    pointer-events: none;
-}
-
+/* 📦 MAIN CONTAINER */
 .container {
-    max-width: 600px;
+    max-width: 620px;
     margin: auto;
 }
 
+/* 🏷️ TITLES */
 h1 {
     text-align: center;
     font-size: 2.5rem;
+    margin-bottom: 5px;
+    text-shadow: 0 3px 8px rgba(0,0,0,0.6);
 }
 
 .subtitle {
     text-align: center;
-    opacity: 0.8;
+    opacity: 0.85;
     margin-bottom: 30px;
 }
 
-/* ===== FORM ===== */
+/* 📝 FORM */
 form {
     background: rgba(255,255,255,0.12);
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(10px);
     padding: 20px;
-    border-radius: 14px;
+    border-radius: 15px;
     margin-bottom: 30px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.35);
 }
 
-input, textarea, button {
+/* ✍️ INPUTS */
+input,
+textarea {
     width: 100%;
     padding: 12px;
     border-radius: 10px;
     border: none;
     font-size: 16px;
     margin-bottom: 15px;
+
+    background: rgba(255,255,255,0.85);
+    color: #222;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #666;
 }
 
 textarea {
     resize: none;
-    height: 100px;
+    height: 110px;
 }
 
+/* 🚀 BUTTON */
 button {
-    background: #ffcc70;
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
+
+    background: linear-gradient(135deg, #ffd194, #ffb347);
+    color: #222;
 }
 
 button:hover {
-    background: #ffd98e;
-    transform: translateY(-1px);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    filter: brightness(1.05);
 }
 
+/* 🕵️ ANON TOGGLE */
 .anon-toggle {
     display: flex;
     align-items: center;
     gap: 8px;
     font-size: 0.9rem;
     opacity: 0.85;
+    margin-bottom: 10px;
 }
 
-/* ===== POSTS ===== */
+/* 🧠 POSTS */
 .post {
-    padding: 14px;
-    border-radius: 16px;
-    margin-bottom: 18px;
-    border: 1px dashed rgba(255,255,255,0.7);
     position: relative;
-    overflow: hidden;
+    padding: 15px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+
+    border: 2px dashed rgba(255,255,255,0.7);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .post:hover {
-    transform: rotate(-1deg) scale(1.02);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.45);
+    transform: rotate(-0.6deg) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
 }
 
-/* GLASS CONTENT OVERLAY */
-.post-content {
-    background: rgba(255, 255, 255, 0.55);
-    backdrop-filter: blur(6px);
-    border-radius: 12px;
+/* 📄 POST TEXT */
+.post .name {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.post .time {
+    font-size: 0.8rem;
+    opacity: 0.85;
+}
+
+.post p {
+    margin-top: 8px;
+    line-height: 1.4;
+}
+
+/* 🖼️ GOOBY IMAGE */
+.post-image {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+
+    position: absolute;
+    top: 8px;
+    right: 8px;
+
+    background-size: cover;
+    background-position: center;
+
+    border: 2px solid rgba(255,255,255,0.9);
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+/* 📱 MOBILE */
+@media (max-width: 600px) {
+    body {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+}    border-radius: 12px;
     padding: 10px 12px;
     color: #222;
 }
