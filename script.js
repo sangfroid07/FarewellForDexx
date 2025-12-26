@@ -88,7 +88,7 @@ form.addEventListener("submit", async (e) => {
 
     const name = (!anonCheckbox.checked && nameField.value.trim() !== "")
         ? nameField.value.trim()
-        : "~Anonymous ❤️";
+        : "~Anonymous <3";
 
     await db.collection("posts").add({
         name: name,
