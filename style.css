@@ -3,11 +3,27 @@
     font-family: 'Segoe UI', sans-serif;
 }
 
+/* ===== PAGE BACKGROUND ===== */
 body {
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    background: linear-gradient(
+        160deg,
+        #1f2f36,
+        #243b42,
+        #1b2a30
+    );
     color: white;
     margin: 0;
     padding: 40px;
+    min-height: 100vh;
+}
+
+/* subtle texture */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.02);
+    pointer-events: none;
 }
 
 .container {
@@ -26,17 +42,19 @@ h1 {
     margin-bottom: 30px;
 }
 
+/* ===== FORM ===== */
 form {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(6px);
     padding: 20px;
-    border-radius: 12px;
+    border-radius: 14px;
     margin-bottom: 30px;
 }
 
 input, textarea, button {
     width: 100%;
     padding: 12px;
-    border-radius: 8px;
+    border-radius: 10px;
     border: none;
     font-size: 16px;
     margin-bottom: 15px;
@@ -51,10 +69,13 @@ button {
     background: #ffcc70;
     font-weight: bold;
     cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
 }
 
 button:hover {
     background: #ffd98e;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
 }
 
 .anon-toggle {
@@ -65,48 +86,64 @@ button:hover {
     opacity: 0.85;
 }
 
-/* GOOBY POSTS TEMPLATE */
+/* ===== POSTS ===== */
 .post {
-    padding: 15px;
-    border-radius: 15px;
-    margin-bottom: 15px;
-    border: 2px dashed #fff;
+    padding: 14px;
+    border-radius: 16px;
+    margin-bottom: 18px;
+    border: 1px dashed rgba(255,255,255,0.7);
     position: relative;
     overflow: hidden;
     transition: transform 0.2s, box-shadow 0.2s;
-     text-shadow: 0 1px 2px rgba(0,0,0,0.15);
 }
 
 .post:hover {
     transform: rotate(-1deg) scale(1.02);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.45);
+}
+
+/* GLASS CONTENT OVERLAY */
+.post-content {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(6px);
+    border-radius: 12px;
+    padding: 10px 12px;
+    color: #222;
+}
+
+/* readable text */
+.post-content * {
+    text-shadow: 0 1px 1px rgba(0,0,0,0.1);
 }
 
 .post .name {
     font-weight: bold;
     font-size: 1.1rem;
-    color: #fff;
 }
+
 .post .time {
     font-size: 0.8rem;
-    opacity: 0.7;
+    opacity: 0.75;
 }
 
 .post p {
     margin: 8px 0 0 0;
 }
 
+/* goofy badge image */
 .post-image {
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     position: absolute;
-    top: 5px;
-    right: 5px;
-    border: 2px solid #fff;
+    top: 8px;
+    right: 8px;
+    border: 2px solid rgba(255,255,255,0.9);
+    background-size: cover;
+    background-position: center;
 }
 
-/* MOBILE OPTIMIZATION */
+/* ===== MOBILE ===== */
 @media (max-width: 600px) {
     body {
         padding: 20px;
@@ -115,4 +152,4 @@ button:hover {
     h1 {
         font-size: 2rem;
     }
-}
+    }
