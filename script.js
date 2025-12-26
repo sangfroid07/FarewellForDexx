@@ -1,112 +1,69 @@
-// 🔥 PASTE YOUR FIREBASE CONFIG HERE
-const firebaseConfig = {
-    apiKey: "AIzaSyBbVHB-sjFqGDvpYiRTof8zdqF6oVEfYxo",
-    authDomain: "dexxer-43e55.firebaseapp.com",
-    projectId: "dexxer-43e55",
-    storageBucket: "dexxer-43e55.firebasestorage.app",
-    messagingSenderId: "80900359866",
-    appId: "1:80900359866:web:818425eff775c7f55fe483"
-  };
+const form = document.getElementById("postForm");
+const postsContainer = document.getElementById("posts");
 
-// Init Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-const form = document.getElementById("messageForm");
-const wall = document.getElementById("wall");
-const anonCheckbox = document.getElementById("anonymous");
-const nameField = document.getElementById("name");
-
-anonCheckbox.addEventListener("change", () => {
-    nameField.disabled = anonCheckbox.checked;
-    if (anonCheckbox.checked) nameField.value = "";
-});
-
-// REALTIME WALL
-db.collection("posts")
-  .orderBy("timestamp", "desc")
-  .onSnapshot(snapshot => {
-      wall.innerHTML = "";
-      snapshot.forEach(doc => renderPost(doc.data()));
-  });
-
-// RENDER FUNCTION WITH RANDOM BACKGROUNDS + IMAGES
-function renderPost(data) {
-    const post = document.createElement("div");
-    post.classList.add("post");
-
-    // RANDOM BACKGROUND COLORS
-    const backgrounds = [
-    /* Crimson / Blue (pastel) */
-    'linear-gradient(135deg, #f4b1b1, #b8c6ff)',
-
-    /* Peach / Red (pastel) */
-    'linear-gradient(135deg, #ffd6c9, #ff9aa2)',
-
-    /* Green / Blue (pastel) */
-    'linear-gradient(135deg, #c7e9d8, #b5d8ff)',
-
-    /* Black / White (soft gray pastel) */
-    'linear-gradient(135deg, #f2f2f2, #cfcfcf)',
-
-    /* Tan / Beige (pastel) */
-    'linear-gradient(135deg, #f3e6d3, #e6d5b8)'
+const gradients = [
+    "linear-gradient(135deg, #f6d365, #fda085)", // peach
+    "linear-gradient(135deg, #fbc2eb, #a6c1ee)", // pink-blue
+    "linear-gradient(135deg, #cfd9df, #e2ebf0)", // grey
+    "linear-gradient(135deg, #d4fc79, #96e6a1)", // green
+    "linear-gradient(135deg, #fddb92, #d1fdff)"  // beige
 ];
 
-    // RANDOM IMAGES
-    const images = [
-  'lg1.jpg',
-  'lg2.jpg',
-  'lg3.jpg',
-  'lg4.jpg',
-  'lg5.jpg',
-  'lg6.jpg',
-  'lg7.jpg',
-  'lg8.jpg',
-  'lg9.jpg',
-  'lg10.jpg'
-];
-    const randomImg = images[Math.floor(Math.random() * images.length)];
-    const gradient = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-const image = images[Math.floor(Math.random() * images.length)];
+const goofyImages = ['Ig1.jpg','Ig2.jpg','Ig3.jpg','Ig4.jpg','Ig5.jpg','Ig6.jpg','Ig7.jpg','Ig8.jpg','Ig9.jpg','Ig10.jpg']; // put in repo root
 
-post.style.backgroundImage = `
-    ${gradient},
-    url(${image})
-`;
-post.style.backgroundSize = 'cover';
-post.style.backgroundPosition = 'center';
-post.style.backgroundRepeat = 'no-repeat';
-    post.innerHTML = `
-        <div class="name">${data.name}</div>
-        <div class="time">${new Date(data.timestamp).toLocaleString()}</div>
-        <p>${escapeHTML(data.message)}</p>
-        <img src="${randomImg}" alt="goofy" class="post-image">
-    `;
+// Load saved posts
+let posts = JSON.parse(localStorage.getItem("posts")) || [];
+renderPosts();
 
-    wall.appendChild(post);
-}
-
-form.addEventListener("submit", async (e) => {
+form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const message = document.getElementById("message").value.trim();
-    if (!message) return;
+    const nameInput = document.getElementById("nameInput");
+    const anonCheck = document.getElementById("anonCheck");
+    const messageInput = document.getElementById("messageInput");
 
-    const name = (!anonCheckbox.checked && nameField.value.trim() !== "")
-        ? nameField.value.trim()
-        : "~Anonymous <3";
+    let name = anonCheck.checked || nameInput.value.trim() === ""
+        ? "Anonymous <3"
+        : nameInput.value.trim();
 
-    await db.collection("posts").add({
-        name: name,
-        message: message,
-        timestamp: Date.now()
-    });
+    const post = {
+        name,
+        text: messageInput.value.trim(),
+        time: new Date().toLocaleString(),
+        gradient: gradients[Math.floor(Math.random() * gradients.length)],
+        image: goofyImages[Math.floor(Math.random() * goofyImages.length)]
+    };
 
-    form.reset();
-    anonCheckbox.checked = true;
-    nameField.disabled = true;
+    posts.unshift(post);
+    localStorage.setItem("posts", JSON.stringify(posts));
+
+    messageInput.value = "";
+    renderPosts();
 });
+
+function renderPosts() {
+    postsContainer.innerHTML = "";
+
+    posts.forEach((post) => {
+        const div = document.createElement("div");
+        div.className = "post";
+        div.style.background = post.gradient;
+
+        div.innerHTML = `
+            <div class="post-content">
+                <div class="name">${post.name}</div>
+                <div class="time">${post.time}</div>
+                <p>${post.text}</p>
+            </div>
+            <div class="post-image"></div>
+        `;
+
+        const img = div.querySelector(".post-image");
+        img.style.backgroundImage = `url(${post.image})`;
+
+        postsContainer.appendChild(div);
+    });
+}});
 
 function escapeHTML(str) {
     return str.replace(/[&<>"']/g, m => ({
