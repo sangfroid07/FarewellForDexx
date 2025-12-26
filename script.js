@@ -37,11 +37,21 @@ function renderPost(data) {
 
     // RANDOM BACKGROUND COLORS
     const backgrounds = [
-        'linear-gradient(135deg, #ffcc70, #ff6699)',
-        'linear-gradient(135deg, #70ffcc, #6699ff)',
-        'linear-gradient(135deg, #cc70ff, #ff70cc)',
-        'linear-gradient(135deg, #ffd700, #ff4500)'
-    ];
+    /* Crimson / Blue (pastel) */
+    'linear-gradient(135deg, #f4b1b1, #b8c6ff)',
+
+    /* Peach / Red (pastel) */
+    'linear-gradient(135deg, #ffd6c9, #ff9aa2)',
+
+    /* Green / Blue (pastel) */
+    'linear-gradient(135deg, #c7e9d8, #b5d8ff)',
+
+    /* Black / White (soft gray pastel) */
+    'linear-gradient(135deg, #f2f2f2, #cfcfcf)',
+
+    /* Tan / Beige (pastel) */
+    'linear-gradient(135deg, #f3e6d3, #e6d5b8)'
+];
     const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
     post.style.background = randomBg;
 
