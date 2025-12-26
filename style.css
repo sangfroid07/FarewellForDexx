@@ -65,20 +65,44 @@ button:hover {
     opacity: 0.85;
 }
 
+/* GOOBY POSTS TEMPLATE */
 .post {
-    background: rgba(0,0,0,0.35);
     padding: 15px;
-    border-radius: 10px;
+    border-radius: 15px;
     margin-bottom: 15px;
+    border: 2px dashed #fff;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.post:hover {
+    transform: rotate(-1deg) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
 }
 
 .post .name {
     font-weight: bold;
+    font-size: 1.1rem;
+    color: #fff;
 }
-
 .post .time {
     font-size: 0.8rem;
-    opacity: 0.6;
+    opacity: 0.7;
+}
+
+.post p {
+    margin: 8px 0 0 0;
+}
+
+.post-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border: 2px solid #fff;
 }
 
 /* MOBILE OPTIMIZATION */
