@@ -30,14 +30,30 @@ db.collection("posts")
       snapshot.forEach(doc => renderPost(doc.data()));
   });
 
+// RENDER FUNCTION WITH RANDOM BACKGROUNDS + IMAGES
 function renderPost(data) {
     const post = document.createElement("div");
     post.classList.add("post");
+
+    // RANDOM BACKGROUND COLORS
+    const backgrounds = [
+        'linear-gradient(135deg, #ffcc70, #ff6699)',
+        'linear-gradient(135deg, #70ffcc, #6699ff)',
+        'linear-gradient(135deg, #cc70ff, #ff70cc)',
+        'linear-gradient(135deg, #ffd700, #ff4500)'
+    ];
+    const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+    post.style.background = randomBg;
+
+    // RANDOM IMAGES
+    const images = ['Ig1.jpg','Ig2.jpg','Ig3.jpg','Ig4.jpg','Ig5.jpg','Ig6.jpg','Ig7.jpg','Ig8.jpg','Ig9.jpg','Ig10.jpg']; // put in repo root
+    const randomImg = images[Math.floor(Math.random() * images.length)];
 
     post.innerHTML = `
         <div class="name">${data.name}</div>
         <div class="time">${new Date(data.timestamp).toLocaleString()}</div>
         <p>${escapeHTML(data.message)}</p>
+        <img src="${randomImg}" alt="goofy" class="post-image">
     `;
 
     wall.appendChild(post);
@@ -51,7 +67,7 @@ form.addEventListener("submit", async (e) => {
 
     const name = (!anonCheckbox.checked && nameField.value.trim() !== "")
         ? nameField.value.trim()
-        : "Anonymous ❤️";
+        : "~Anonymous ❤️";
 
     await db.collection("posts").add({
         name: name,
@@ -72,4 +88,4 @@ function escapeHTML(str) {
         '"':'&quot;',
         "'":'&#39;'
     })[m]);
-}
+        }
