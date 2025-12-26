@@ -52,8 +52,6 @@ function renderPost(data) {
     /* Tan / Beige (pastel) */
     'linear-gradient(135deg, #f3e6d3, #e6d5b8)'
 ];
-    const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-    post.style.background = randomBg;
 
     // RANDOM IMAGES
     const images = [
@@ -69,7 +67,16 @@ function renderPost(data) {
   'lg10.jpg'
 ];
     const randomImg = images[Math.floor(Math.random() * images.length)];
+    const gradient = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+const image = images[Math.floor(Math.random() * images.length)];
 
+post.style.backgroundImage = `
+    ${gradient},
+    url(${image})
+`;
+post.style.backgroundSize = 'cover';
+post.style.backgroundPosition = 'center';
+post.style.backgroundRepeat = 'no-repeat';
     post.innerHTML = `
         <div class="name">${data.name}</div>
         <div class="time">${new Date(data.timestamp).toLocaleString()}</div>
