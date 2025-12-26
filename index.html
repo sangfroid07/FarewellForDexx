@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>One Last Page</title>
+
+    <!-- MOBILE FIX -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>One Last Page</h1>
+    <p class="subtitle">Write something I’ll remember.</p>
+
+    <form id="messageForm">
+        <input type="text" id="name" placeholder="Your name" disabled>
+
+        <label class="anon-toggle">
+            <input type="checkbox" id="anonymous" checked>
+            Post as Anonymous
+        </label>
+
+        <textarea id="message" placeholder="Say something..." maxlength="300" required></textarea>
+        <button type="submit">Post</button>
+    </form>
+
+    <div id="wall"></div>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script src="script.js"></script>
+</body>
+</html>

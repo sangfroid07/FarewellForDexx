@@ -1,0 +1,93 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: white;
+    margin: 0;
+    padding: 40px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+}
+
+.subtitle {
+    text-align: center;
+    opacity: 0.8;
+    margin-bottom: 30px;
+}
+
+form {
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+input, textarea, button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+textarea {
+    resize: none;
+    height: 100px;
+}
+
+button {
+    background: #ffcc70;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #ffd98e;
+}
+
+.anon-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+
+.post {
+    background: rgba(0,0,0,0.35);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.post .name {
+    font-weight: bold;
+}
+
+.post .time {
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+/* MOBILE OPTIMIZATION */
+@media (max-width: 600px) {
+    body {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+}
