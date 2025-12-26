@@ -46,7 +46,18 @@ function renderPost(data) {
     post.style.background = randomBg;
 
     // RANDOM IMAGES
-    const images = ['Ig1.jpg','Ig2.jpg','Ig3.jpg','Ig4.jpg','Ig5.jpg','Ig6.jpg','Ig7.jpg','Ig8.jpg','Ig9.jpg','Ig10.jpg']; // put in repo root
+    const images = [
+  'lg1.jpg',
+  'lg2.jpg',
+  'lg3.jpg',
+  'lg4.jpg',
+  'lg5.jpg',
+  'lg6.jpg',
+  'lg7.jpg',
+  'lg8.jpg',
+  'lg9.jpg',
+  'lg10.jpg'
+];
     const randomImg = images[Math.floor(Math.random() * images.length)];
 
     post.innerHTML = `
